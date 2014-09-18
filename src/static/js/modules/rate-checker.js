@@ -94,11 +94,6 @@ var options = {
  */
 function init() {
 
-  // Only attempt to do things if we're on the rate checker page.
-  if ( $('.rate-checker').length < 1 ) {
-    return;
-  }
-
   renderSlider();
   renderChart();
   renderLoanAmount();
