@@ -41,18 +41,6 @@
 <![endif]-->
 
 <!--[if lte IE 8]>
-    <script src="static/vendor/html5shiv.js"></script>
-    <script src="static/vendor/respond.src.js"></script>
-    <script>
-      var cfHead = document.getElementsByTagName('head')[0],
-        cfStyle = document.createElement('style');
-      cfStyle.type = 'text/css';
-      cfStyle.styleSheet.cssText = ':before,:after{content:none !important}';
-      cfHead.appendChild(cfStyle);
-      setTimeout(function(){
-        cfHead.removeChild(cfStyle);
-      }, 300);
-    </script>
     <!-- build:js static/js/lte-ie8.min.js -->
     <script src="static/js/lte-ie8.js"></script>
     <!-- endbuild -->
@@ -86,28 +74,6 @@
 <a class="visuallyhidden" href="#primary-content">Skip to content</a>
 {% include "nemo_header.html" %}
 
-{% if subnav %}
-  <!-- NAVIGATION -->
-  {% set navigation_bar = [
-      ('index.html', 'index', 'Owning a Home'),
-      ('rate-checker.html', 'rate-checker', 'Rate Checker'),
-      ('loan-comparison.html', 'loan-comparison', 'Loan Comparison'),
-      ('loan-types.html', 'loan-types', 'Loan types')
-  ] -%}
-  {% set active_page = active_page|default('index') -%}
-
-  <nav class="secondary-nav col-3">
-    <ul class="secondary-nav-list">
-    {% for href, id, caption in navigation_bar %}
-      <li{% if id == active_page %} class="current"{% endif
-      %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
-    {% endfor %}
-    </ul>
-  </nav>
-  <!-- /NAVIGATION -->
-{% endif %}
-
-
   <!-- PRIMARY CONTENT -->
   <div id="#primary-content">
     {% block content %}
@@ -122,6 +88,7 @@
 <!-- build:js static/js/main.min.js -->
 <script src="static/js/main.js"></script>
 <!-- endbuild -->
+<script src="static/js/{{ active_page }}.js"></script>
 </body>
 
 </html>
