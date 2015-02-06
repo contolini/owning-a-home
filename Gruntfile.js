@@ -340,15 +340,37 @@ module.exports = function(grunt) {
         '!src/static/js/main.js'
       ]
     },
-
     // run the mocha tests
     'mochaTest': {
       test: {
         options: {
-          reporter: 'nyan'
+          reporter: 'nyan',
+          require: 'test/coverage/blanket'
         },
         src: ['test/js/*.js']
+      },
+      coverage: {
+        options: {
+          reporter: 'html-cov',
+          quiet: true,
+          captureFile: 'test/coverage.html'
+        },
+        src: ['test/**/*.js']
+      },
+      // The travis-cov reporter will fail the tests if the
+      // coverage falls below the threshold configured in package.json
+      'travis-cov': {
+        options: {
+          reporter: 'travis-cov'
+        },
+        src: ['test/**/*.js']
       }
+    },
+    blanket: {
+      options: {},
+      files: {
+        'src-cov/': ['src/'],
+      },
     },
 
     /**
@@ -431,7 +453,7 @@ module.exports = function(grunt) {
   grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
   grunt.registerTask('build', ['reset', 'js', 'css', 'copy', 'concat:ie9', 'concat:ie8']);
   grunt.registerTask('ship', ['uglify', 'cssmin', 'usebanner']);
-  grunt.registerTask('test', ['browserify:tests', 'mochaTest']);
+  grunt.registerTask('test', ['mochaTest', 'browserify:tests']);
   grunt.registerTask('release', ['clean:dist', 'js', 'css', 'copy:release', 'copy:img', 'copy:fonts', 'concat:ie9', 'concat:ie8']);
   grunt.registerTask('deploy', ['release', 'ship']);
   grunt.registerTask('default', ['build', 'ship']);

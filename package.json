@@ -28,10 +28,12 @@
     "postinstall": "grunt vendor"
   },
   "devDependencies": {
+    "blanket": "^1.1.6",
     "browserify": "3.44.2",
     "browserify-shim": "3.4.1",
     "chai": "^1.9.1",
     "debowerify": "~0.7.1",
+    "factor-bundle": "~2.2.1",
     "grunt": "latest",
     "grunt-autoprefixer": "~0.6.5",
     "grunt-banner": "latest",
@@ -52,12 +54,12 @@
     "grunt-release": "latest",
     "grunt-shell": "~0.3.0",
     "grunt-string-replace": "latest",
+    "grunt-usemin": "~2.4.0",
     "load-grunt-config": "^0.13.1",
     "load-grunt-tasks": "^0.6.0",
     "mocha": "^1.18.2",
     "time-grunt": "^1.0.0",
-    "grunt-usemin": "~2.4.0",
-    "factor-bundle": "~2.2.1"
+    "travis-cov": "^0.2.5"
   },
   "keywords": [],
   "dependencies": {
@@ -102,5 +104,10 @@
     "cf-expandables": "./src/static/vendor/cf-expandables/cf-expandables.js",
     "oah-config": "./config/config.json"
   },
-  "browserify-shim": "./config/shim.js"
+  "browserify-shim": "./config/shim.js",
+  "config": {
+    "travis-cov": {
+      "threshold": 70
+    }
+  }
 }
