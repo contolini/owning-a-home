@@ -340,39 +340,19 @@ module.exports = function(grunt) {
         '!src/static/js/main.js'
       ]
     },
-    // run the mocha tests
-    'mochaTest': {
-      test: {
-        options: {
-          reporter: 'nyan',
-          require: 'test/coverage/blanket'
-        },
-        src: ['test/js/*.js']
-      },
+    mocha_istanbul: {
       coverage: {
+        src: ['test/js/*.js'], // multiple folders also works
         options: {
-          reporter: 'html-cov',
-          quiet: true,
-          captureFile: 'test/coverage.html'
-        },
-        src: ['test/**/*.js']
-      },
-      // The travis-cov reporter will fail the tests if the
-      // coverage falls below the threshold configured in package.json
-      'travis-cov': {
-        options: {
-          reporter: 'travis-cov'
-        },
-        src: ['test/**/*.js']
+          coverageFolder: 'test/coverage',
+          coverage: true,
+          check: {
+            lines: 75,
+            statements: 75
+          }
+        }
       }
     },
-    blanket: {
-      options: {},
-      files: {
-        'src-cov/': ['src/'],
-      },
-    },
-
     /**
      * grunt-cfpb-internal: https://github.com/cfpb/grunt-cfpb-internal
      *
@@ -440,6 +420,15 @@ module.exports = function(grunt) {
 
   });
 
+  grunt.event.on('coverage', function( lcov, done ) {
+    require('coveralls').handleInput( lcov, function( err ) {
+      if ( err ) {
+        return done( err );
+      }
+      done();
+    });
+  });
+
   /**
    * Load the tasks.
    */
@@ -453,7 +442,7 @@ module.exports = function(grunt) {
   grunt.registerTask('vendor', ['clean:bowerDir', 'bower:install', 'concat:cf-less']);
   grunt.registerTask('build', ['reset', 'js', 'css', 'copy', 'concat:ie9', 'concat:ie8']);
   grunt.registerTask('ship', ['uglify', 'cssmin', 'usebanner']);
-  grunt.registerTask('test', ['mochaTest', 'browserify:tests']);
+  grunt.registerTask('test', ['mochacov', 'browserify:tests']);
   grunt.registerTask('release', ['clean:dist', 'js', 'css', 'copy:release', 'copy:img', 'copy:fonts', 'concat:ie9', 'concat:ie8']);
   grunt.registerTask('deploy', ['release', 'ship']);
   grunt.registerTask('default', ['build', 'ship']);
