@@ -55,7 +55,7 @@
     "grunt-shell": "~0.3.0",
     "grunt-string-replace": "latest",
     "grunt-usemin": "~2.4.0",
-    "istanbul": "^0.3.5",
+    "istanbul": "git://github.com/gotwarlost/istanbul.git#harmony",
     "load-grunt-config": "^0.13.1",
     "load-grunt-tasks": "^0.6.0",
     "mocha": "^1.18.2",
